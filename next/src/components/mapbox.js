@@ -16,7 +16,6 @@ class Mapbox extends Component {
   }
 
   componentDidMount() {
-    var { data } = this.props;
     const map = new mapboxgl.Map({
       container: this.mapContainer,
       style: "mapbox://styles/rlyhan/cll2i2nxz00e101qp8wn95xl1",
@@ -94,17 +93,14 @@ class Mapbox extends Component {
 
   render() {
     return (
-      <div className="mapWrapper">
-        <div className="sidebar"></div>
-        <div
-          className="mapContainer"
-          ref={(el) => (this.mapContainer = el)}
-          style={{
-            border: "1px solid #212121",
-            boxSizing: "border-box",
-          }}
-        ></div>
-      </div>
+      <div
+        className="mapContainer"
+        ref={(el) => (this.mapContainer = el)}
+        style={{
+          border: "1px solid #212121",
+          boxSizing: "border-box",
+        }}
+      ></div>
     );
   }
 }

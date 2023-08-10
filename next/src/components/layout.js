@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import styles from "./layout.module.scss";
+import homeStyles from "./home.module.scss";
 
 const name = "Your Name";
 export const siteTitle = "Next.js Sample Website";
@@ -25,7 +26,7 @@ export default function Layout({ children, home }) {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <header className={styles.header}></header>
-      <main>{children}</main>
+      <main className={home && homeStyles.containerHome}>{children}</main>
       {!home && (
         <div className={styles.backToHome}>
           <Link href="/">
