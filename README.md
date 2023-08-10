@@ -19,5 +19,9 @@ Django window
 NextJS window
 
 1. Run `yarn install` to install requirements
-2. Run `npm run dev` to run frontend
-3. Visit `localhost:3000` to view the frontend
+2. Create a `.env.local` folder in the `people-of-london/next` folder and specify NEXT_PUBLIC_MAPBOX_GL_TOKEN (get one via the Mapbox GL API)
+3. Run `npm run dev` to run frontend
+4. Visit `localhost:3000` to view the frontend
+
+Sources:
+London borough boundaries used for map: https://skgrange.github.io/data.html

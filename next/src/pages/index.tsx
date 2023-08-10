@@ -1,4 +1,5 @@
 import Layout from "../components/layout";
+import Mapbox from "../components/mapbox";
 import { TestModel } from "@/types";
 
 interface HomePageProps {
@@ -8,10 +9,10 @@ interface HomePageProps {
 function Home({ objects }: HomePageProps) {
   return (
     <Layout home>
-      <div>Hello</div>
       {objects.map((object) => (
         <p>{object.name}</p>
       ))}
+      <Mapbox />
     </Layout>
   );
 }

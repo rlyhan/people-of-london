@@ -35,6 +35,7 @@ next/.vercel
 next/*.tsbuildinfo
 next/next-env.d.ts
 
+# django
 django/venv
 django/*/.env
 django/media

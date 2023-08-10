@@ -1,0 +1,28 @@
+@import "../styles/breakpoints.scss";
+
+.mapWrapper {
+  position: relative;
+  overflow: hidden;
+  max-height: 100vh;
+}
+
+.mapContainer,
+.sidebar {
+  display: inline-block;
+  height: 100vh;
+}
+
+.mapContainer {
+  width: 80%;
+  border: 0 !important;
+  position: relative;
+
+  .mapboxgl-control-container {
+    position: absolute !important;
+    bottom: 0 !important;
+  }
+}
+
+.sidebar {
+  width: 20%;
+}
