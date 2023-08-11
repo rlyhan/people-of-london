@@ -1,6 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Dispatch, SetStateAction } from "react";
 
 import styles from "./home.module.scss";
+
+import {
+  filterEventsByAttractionId,
+  filterImagesByAspectRatio,
+} from "../helpers/filters";
 
 interface SidebarProps {
   gigs: any[];
@@ -10,8 +15,9 @@ export const Sidebar = ({ gigs }: SidebarProps) => {
   const [filteredGigs, setFilteredGigs] = useState([]);
 
   useEffect(() => {
-    setFilteredGigs(gigs);
     console.log(gigs);
+    setFilteredGigs(filterEventsByAttractionId(gigs));
+    console.log(filteredGigs);
   }, []);
 
   return (
@@ -22,7 +28,7 @@ export const Sidebar = ({ gigs }: SidebarProps) => {
             <p className={styles.sidebar__gigList__gig__title}>{gig.name}</p>
             <img
               className={styles.sidebar__gigList__gig__thumb}
-              src={gig.images[0]?.url}
+              src={filterImagesByAspectRatio(gig.images, "3_2").url}
             />
           </div>
         ))}

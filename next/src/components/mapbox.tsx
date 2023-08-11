@@ -1,29 +1,31 @@
-import React, { Component } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import {
+  getLatLngFromEvent,
+  createEventPopupHTML,
+} from "../helpers/ticketmaster";
 import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_GL_TOKEN;
 
-class Mapbox extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      lng: -0.063,
-      lat: 51.486,
-      zoom: 9,
-      mapLoaded: false,
-      displayDataName: "total",
-    };
-  }
+interface MapboxProps {
+  gigs: any[];
+}
 
-  componentDidMount() {
+export const Mapbox = ({ gigs }: MapboxProps) => {
+  const mapContainer = useRef(null);
+  const map: any = useRef(null);
+  let hoveredPolygonId: React.MutableRefObject<null> | null = useRef(null);
+  const [popupOpen, setPopupOpen] = useState(false);
+
+  useEffect(() => {
     const map = new mapboxgl.Map({
-      container: this.mapContainer,
+      container: mapContainer.current,
       style: "mapbox://styles/rlyhan/cll2i2nxz00e101qp8wn95xl1",
-      center: [this.state.lng, this.state.lat],
-      zoom: this.state.zoom,
+      center: [-0.063, 51.486],
+      zoom: 9,
       trackResize: true,
     });
-    let hoveredPolygonId = null;
 
     map.on("load", () => {
       // Add the main data (boroughs of London)
@@ -58,7 +60,6 @@ class Mapbox extends Component {
             );
           }
           hoveredPolygonId = e.features[0].id;
-          console.log(e.features[0]);
           map.setFeatureState(
             { source: "boroughs", id: hoveredPolygonId },
             { hover: true }
@@ -75,34 +76,45 @@ class Mapbox extends Component {
         }
         hoveredPolygonId = null;
       });
+
+      if (gigs) {
+        gigs.forEach((gig) => {
+          const location = getLatLngFromEvent(gig);
+          if (location) {
+            const marker = new mapboxgl.Marker().setLngLat(location).addTo(map);
+            const popup = new mapboxgl.Popup({
+              className: "eventPopup",
+            }).setHTML(createEventPopupHTML(gig));
+            marker.setPopup(popup);
+          }
+        });
+      }
     });
-    this.map = map;
-    window.addEventListener("resize", this.forceMapResize);
-  }
+    window.addEventListener("resize", forceMapResize);
 
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.forceMapResize);
-    this.map.remove();
-  }
+    return () => {
+      map.remove();
+    };
+  }, []);
 
-  forceMapResize = () => {
-    if (this.map) {
-      this.map.resize();
+  useEffect(() => {}, [gigs]);
+
+  const forceMapResize = () => {
+    if (map.current) {
+      map.resize();
     }
   };
 
-  render() {
-    return (
-      <div
-        className="mapContainer"
-        ref={(el) => (this.mapContainer = el)}
-        style={{
-          border: "1px solid #212121",
-          boxSizing: "border-box",
-        }}
-      ></div>
-    );
-  }
-}
+  return (
+    <div
+      className="mapContainer"
+      ref={mapContainer}
+      style={{
+        border: "1px solid #212121",
+        boxSizing: "border-box",
+      }}
+    ></div>
+  );
+};
 
 export default Mapbox;
