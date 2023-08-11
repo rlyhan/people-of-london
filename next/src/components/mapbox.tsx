@@ -41,12 +41,12 @@ export const Mapbox = ({ gigs }: MapboxProps) => {
         source: "boroughs",
         layout: {},
         paint: {
-          "fill-color": "#627BC1",
+          "fill-color": "#FFFFFF",
           "fill-opacity": [
             "case",
             ["boolean", ["feature-state", "hover"], false],
-            1,
             0.5,
+            0.25,
           ],
         },
       });
