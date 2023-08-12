@@ -1,3 +1,7 @@
+import moment from "moment";
+
+import { getLatLngFromEvent } from "./ticketmaster";
+
 const filterEventsByAttractionId = (events) => {
   const distinctEvents = [];
   const distinctAttractionIds = new Set();
@@ -17,8 +21,25 @@ const filterEventsByAttractionId = (events) => {
   return distinctEvents;
 };
 
+const filterEventsByDate = (events, date: Date) => {
+  return events.filter(
+    (event) =>
+      moment(event.dates.start.dateTime).format("YYYY-MM-DD") ===
+      moment(date).format("YYYY-MM-DD")
+  );
+};
+
+const filterEventsByExistingVenue = (events) => {
+  return events.filter((event) => getLatLngFromEvent(event) !== null);
+};
+
 const filterImagesByAspectRatio = (images, aspectRatio) => {
   return images.filter((image) => image.ratio === aspectRatio)[0] || images[0];
 };
 
-export { filterEventsByAttractionId, filterImagesByAspectRatio };
+export {
+  filterEventsByAttractionId,
+  filterEventsByDate,
+  filterEventsByExistingVenue,
+  filterImagesByAspectRatio,
+};

@@ -1,31 +1,39 @@
 import React, { useEffect, useState, Dispatch, SetStateAction } from "react";
 import moment from "moment";
 
-import styles from "./home.module.scss";
+import styles from "./sidebar.module.scss";
 
-import {
-  filterEventsByAttractionId,
-  filterImagesByAspectRatio,
-} from "../helpers/filters";
+import { filterImagesByAspectRatio } from "../helpers/filters";
 
 interface SidebarProps {
   gigs: any[];
+  setSelectedGigId: Dispatch<SetStateAction<string | null>>;
 }
 
-export const Sidebar = ({ gigs }: SidebarProps) => {
-  const [filteredGigs, setFilteredGigs] = useState([]);
+export const Sidebar = ({ gigs, setSelectedGigId }: SidebarProps) => {
+  const [filteredGigs, setFilteredGigs] = useState(gigs);
+
+  const handleMouseEnter = (gigId: string) => {
+    setSelectedGigId(gigId);
+  };
+
+  const handleMouseLeave = () => {
+    setSelectedGigId(null);
+  };
 
   useEffect(() => {
-    console.log(gigs);
-    setFilteredGigs(filterEventsByAttractionId(gigs));
-    console.log(filteredGigs);
-  }, []);
+    setFilteredGigs(gigs);
+  }, [gigs]);
 
   return (
     <div className={styles.sidebar}>
       <div className={styles.sidebar__gigList}>
-        {filteredGigs?.map((gig) => (
-          <div className={styles.sidebar__gigList__gig}>
+        {filteredGigs.map((gig) => (
+          <div
+            className={styles.sidebar__gigList__gig}
+            onMouseEnter={() => handleMouseEnter(gig.id)}
+            onMouseLeave={handleMouseLeave}
+          >
             <div className={styles.sidebar__gigList__gig__thumb}>
               <div className={styles.sidebar__gigList__gig__title}>
                 <p className={styles.sidebar__gigList__gig__title__text}>
