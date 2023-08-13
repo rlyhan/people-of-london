@@ -2,14 +2,14 @@
 @import "../styles/fonts.scss";
 
 .sidebar {
+  padding: 20px;
+  background-color: $grey-1;
   width: 30%;
   max-width: 410px;
   overflow-y: scroll;
 }
 
 .sidebar__gigList {
-  background-color: $grey-1;
-  padding: 20px;
 }
 
 .sidebar__gigList__gig {

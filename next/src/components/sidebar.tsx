@@ -3,8 +3,9 @@ import moment from "moment";
 
 import styles from "./sidebar.module.scss";
 import utilsStyles from "../styles/utils.module.scss";
-
 import { filterImagesByAspectRatio } from "../helpers/filters";
+
+import Logo from "./logo";
 
 interface SidebarProps {
   gigs: any[];
@@ -37,6 +38,7 @@ export const Sidebar = ({
 
   return (
     <div className={styles.sidebar}>
+      <Logo />
       <div className={styles.sidebar__gigList}>
         {filteredGigs.map((gig) => (
           <div
