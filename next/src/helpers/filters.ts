@@ -17,7 +17,6 @@ const filterEventsByAttractionId = (events) => {
       distinctAttractionIds.add(event._embedded.attractions[0]?.id);
     }
   });
-  console.log(distinctEvents);
   return distinctEvents;
 };
 

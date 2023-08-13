@@ -7,6 +7,10 @@
   width: 30%;
   max-width: 410px;
   overflow-y: scroll;
+
+  &__noGigs {
+    color: white;
+  }
 }
 
 .sidebar__gigList {

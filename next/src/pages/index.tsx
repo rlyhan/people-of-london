@@ -15,25 +15,30 @@ interface HomePageProps {
 }
 
 function Home({ gigs }: HomePageProps) {
+  const [gigList, setGigList] = useState(gigs);
   const [selectedGigId, setSelectedGigId] = useState<string | null>(null);
   const [modalGigId, setModalGigId] = useState<string | null>(null);
-  console.log(gigs);
+
+  useEffect(() => {
+    console.log(gigList);
+  }, [gigList]);
 
   return (
     <Layout home>
       <Sidebar
-        gigs={gigs}
+        gigs={gigList}
+        setGigList={setGigList}
         setSelectedGigId={setSelectedGigId}
         setModalGigId={setModalGigId}
       />
       <Mapbox
-        gigs={gigs}
+        gigs={gigList}
         selectedGigId={selectedGigId}
         setSelectedGigId={setSelectedGigId}
       />
       {modalGigId && (
         <Modal
-          gig={gigs.find((gig) => gig.id === modalGigId)}
+          gig={gigList.find((gig) => gig.id === modalGigId)}
           setModalGigId={setModalGigId}
         />
       )}

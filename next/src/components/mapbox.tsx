@@ -26,13 +26,13 @@ export const Mapbox = ({
   setSelectedGigId,
 }: MapboxProps) => {
   const mapContainer = useRef(null);
-  const map: any = useRef(null);
   let hoveredPolygonId: React.MutableRefObject<null> | null = useRef(null);
+  const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [currentMarker, setCurrentMarker] = useState(null);
 
   useEffect(() => {
-    const map = new mapboxgl.Map({
+    const mapboxMap = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/rlyhan/cll2i2nxz00e101qp8wn95xl1",
       center: [-0.063, 51.486],
@@ -40,15 +40,15 @@ export const Mapbox = ({
       trackResize: true,
     });
 
-    map.on("load", () => {
+    mapboxMap.on("load", () => {
       // Add the main data (boroughs of London)
-      map.addSource("boroughs", {
+      mapboxMap.addSource("boroughs", {
         type: "geojson",
         data: "https://skgrange.github.io/www/data/london_boroughs.json",
         generateId: true,
       });
 
-      map.addLayer({
+      mapboxMap.addLayer({
         id: "borough-fills",
         type: "fill",
         source: "boroughs",
@@ -64,25 +64,25 @@ export const Mapbox = ({
         },
       });
 
-      map.on("mousemove", "borough-fills", (e) => {
+      mapboxMap.on("mousemove", "borough-fills", (e) => {
         if (e.features.length > 0) {
           if (hoveredPolygonId !== null) {
-            map.setFeatureState(
+            mapboxMap.setFeatureState(
               { source: "boroughs", id: hoveredPolygonId },
               { hover: false }
             );
           }
           hoveredPolygonId = e.features[0].id;
-          map.setFeatureState(
+          mapboxMap.setFeatureState(
             { source: "boroughs", id: hoveredPolygonId },
             { hover: true }
           );
         }
       });
 
-      map.on("mouseleave", "borough-fills", () => {
+      mapboxMap.on("mouseleave", "borough-fills", () => {
         if (hoveredPolygonId !== null) {
-          map.setFeatureState(
+          mapboxMap.setFeatureState(
             { source: "boroughs", id: hoveredPolygonId },
             { hover: false }
           );
@@ -90,18 +90,71 @@ export const Mapbox = ({
         hoveredPolygonId = null;
       });
 
-      setupMarkers(gigs, map);
+      setupMarkers(gigs);
     });
+
+    setMap(mapboxMap);
+
     window.addEventListener("resize", forceMapResize);
 
     return () => {
-      map.remove();
+      mapboxMap.remove();
     };
   }, []);
 
+  // When gigs are updated, create new markers
   useEffect(() => {
-    if (map.current) setupMarkers(gigs, map);
-  }, [gigs, map]);
+    if (gigs) setupMarkers(gigs);
+  }, [gigs]);
+
+  // When markers are updated, add them to map
+  useEffect(() => {
+    if (map) {
+      markers.forEach((marker) => {
+        marker.addTo(map);
+      });
+    }
+  }, [markers, map]);
+
+  // Clear current markers
+  // Create new markers corresponding to gig location
+  const setupMarkers = (gigs) => {
+    clearMarkers();
+    if (map) {
+      // TODO: Identify differences between previous markers/gigs array and current? To avoid removing and adding already existing markers
+      const markerList: any[] = [];
+      gigs.forEach((gig) => {
+        markerList.push(createMarker(gig));
+      });
+      setMarkers(markerList);
+    }
+  };
+
+  const clearMarkers = () => {
+    markers.forEach((marker) => marker.remove());
+  };
+
+  const createMarker = (gig) => {
+    const location = getLatLngFromEvent(gig);
+    if (location) {
+      const marker = new mapboxgl.Marker().setLngLat(location);
+      const popup = new mapboxgl.Popup({
+        className: "event-popup",
+      }).setHTML(createEventPopupHTML(gig));
+      marker.setPopup(popup);
+      marker.getElement().setAttribute("data-id", gig.id);
+      marker.getElement().addEventListener("mouseenter", () => {
+        if (gig.id !== selectedGigId) {
+          setSelectedGigId(gig.id);
+        }
+      });
+      marker.getElement().addEventListener("mouseleave", () => {
+        setSelectedGigId(null);
+      });
+      return marker;
+    }
+    return null;
+  };
 
   // When the selectedGigId changes (by hovering over sidebar gigs
   // or hovering over markers)...
@@ -125,39 +178,8 @@ export const Mapbox = ({
     }
   }, [selectedGigId]);
 
-  const setupMarkers = (gigs, map) => {
-    // TODO: Identify differences between previous markers/gigs array and current? To avoid removing and adding already existing markers
-    const markerList: any[] = [];
-    gigs.forEach((gig) => {
-      markerList.push(createMarker(gig, map));
-    });
-    setMarkers(markerList);
-  };
-
-  const createMarker = (gig, map) => {
-    const location = getLatLngFromEvent(gig);
-    if (location) {
-      const marker = new mapboxgl.Marker().setLngLat(location).addTo(map);
-      const popup = new mapboxgl.Popup({
-        className: "event-popup",
-      }).setHTML(createEventPopupHTML(gig));
-      marker.setPopup(popup);
-      marker.getElement().setAttribute("data-id", gig.id);
-      marker.getElement().addEventListener("mouseenter", () => {
-        if (gig.id !== selectedGigId) {
-          setSelectedGigId(gig.id);
-        }
-      });
-      marker.getElement().addEventListener("mouseleave", () => {
-        setSelectedGigId(null);
-      });
-      return marker;
-    }
-    return null;
-  };
-
   const forceMapResize = () => {
-    if (map.current) {
+    if (map) {
       map.resize();
     }
   };
