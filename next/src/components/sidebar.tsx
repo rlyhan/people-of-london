@@ -2,16 +2,26 @@ import React, { useEffect, useState, Dispatch, SetStateAction } from "react";
 import moment from "moment";
 
 import styles from "./sidebar.module.scss";
+import utilsStyles from "../styles/utils.module.scss";
 
 import { filterImagesByAspectRatio } from "../helpers/filters";
 
 interface SidebarProps {
   gigs: any[];
   setSelectedGigId: Dispatch<SetStateAction<string | null>>;
+  setModalGigId: Dispatch<SetStateAction<string | null>>;
 }
 
-export const Sidebar = ({ gigs, setSelectedGigId }: SidebarProps) => {
+export const Sidebar = ({
+  gigs,
+  setSelectedGigId,
+  setModalGigId,
+}: SidebarProps) => {
   const [filteredGigs, setFilteredGigs] = useState(gigs);
+
+  const handleMouseClick = (gigId: string) => {
+    setModalGigId(gigId);
+  };
 
   const handleMouseEnter = (gigId: string) => {
     setSelectedGigId(gigId);
@@ -31,18 +41,19 @@ export const Sidebar = ({ gigs, setSelectedGigId }: SidebarProps) => {
         {filteredGigs.map((gig) => (
           <div
             className={styles.sidebar__gigList__gig}
+            onClick={() => handleMouseClick(gig.id)}
             onMouseEnter={() => handleMouseEnter(gig.id)}
             onMouseLeave={handleMouseLeave}
           >
-            <div className={styles.sidebar__gigList__gig__thumb}>
+            <div className={utilsStyles.aspectRatioImage}>
               <div className={styles.sidebar__gigList__gig__title}>
                 <p className={styles.sidebar__gigList__gig__title__text}>
                   {gig.name}
                 </p>
               </div>
-              <div className={styles.sidebar__gigList__gig__thumb__imgWrap}>
+              <div className={utilsStyles.aspectRatioImage__imgWrap}>
                 <img
-                  className={styles.sidebar__gigList__gig__thumb__img}
+                  className={utilsStyles.aspectRatioImage__img}
                   src={filterImagesByAspectRatio(gig.images, "3_2").url}
                 />
               </div>

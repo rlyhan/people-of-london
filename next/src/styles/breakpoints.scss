@@ -6,7 +6,7 @@ $sidebar-max: 410px;
 $sidebar-max-breakpoint: 1370px;
 
 @mixin phone() {
-  @media (max-width: $phone-max) {
+  @media (max-width: $tablet-min) {
     @content;
   }
 }
