@@ -19,7 +19,11 @@ Django window
 NextJS window
 
 1. Run `yarn install` to install requirements
-2. Create a `.env.local` folder in the `people-of-london/next` folder and specify NEXT_PUBLIC_MAPBOX_GL_TOKEN (get one via the Mapbox GL API)
+2. Create a `.env.local` folder in the `people-of-london/next` folder and specify...
+
+- NEXT_PUBLIC_MAPBOX_GL_TOKEN (get one via the Mapbox GL API)
+- NEXT_PUBLIC_TICKETMASTER_KEY (get one via Ticketmaster Discovery API)
+
 3. Run `npm run dev` to run frontend
 4. Visit `localhost:3000` to view the frontend
 

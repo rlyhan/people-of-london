@@ -1,21 +1,17 @@
 @import "../styles/breakpoints.scss";
 
-.mapWrapper {
-  position: relative;
-  overflow: hidden;
-  max-height: 100vh;
-}
-
-.mapContainer,
-.sidebar {
-  display: inline-block;
-  height: 100vh;
-}
-
 .mapContainer {
-  width: 80%;
+  width: 100vw;
+  margin-top: auto;
   border: 0 !important;
   position: relative;
+  display: inline-block;
+
+  @include desktop() {
+    width: calc(100vw - #{$sidebar-desktop});
+    height: 100vh;
+    margin-top: revert;
+  }
 
   .mapboxgl-control-container {
     position: absolute !important;
@@ -23,6 +19,14 @@
   }
 }
 
-.sidebar {
-  width: 20%;
+.event-popup {
+  .mapboxgl-popup-content {
+    padding: 0;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .mapboxgl-popup-close-button {
+    display: none;
+  }
 }

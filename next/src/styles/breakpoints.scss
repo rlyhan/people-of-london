@@ -2,9 +2,10 @@ $tablet-min: 768px;
 $tablet-max: 1024px;
 $desktop-min: $tablet-max + 1px;
 $max-width: 1440px;
+$sidebar-desktop: 410px;
 
 @mixin phone() {
-  @media (max-width: $phone-max) {
+  @media (max-width: $tablet-min) {
     @content;
   }
 }
@@ -17,6 +18,12 @@ $max-width: 1440px;
 
 @mixin desktop() {
   @media (min-width: $desktop-min) {
+    @content;
+  }
+}
+
+@mixin above-max-width() {
+  @media (min-width: $max-width) {
     @content;
   }
 }

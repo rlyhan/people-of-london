@@ -1,3 +1,5 @@
+@import "./breakpoints.scss";
+
 html,
 body {
   padding: 0;
@@ -25,4 +27,26 @@ a:hover {
 img {
   max-width: 100%;
   display: block;
+}
+
+.logo {
+  user-select: none;
+  font-size: 32px;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  color: white;
+  line-height: 1;
+  letter-spacing: -1px;
+  text-transform: uppercase;
+  margin: 0;
+  @include desktop {
+    font-size: 54px;
+  }
+  .inline {
+    display: inline-block;
+  }
+  .rotatedText {
+    font-size: 0.5em;
+    transform: rotate(45deg);
+    margin-left: 5px;
+  }
 }

@@ -1,9 +1,9 @@
 import Head from "next/head";
 import Link from "next/link";
 import styles from "./layout.module.scss";
+import homeStyles from "./home.module.scss";
 
-const name = "Your Name";
-export const siteTitle = "Next.js Sample Website";
+export const siteTitle = "Gigs of London";
 
 export default function Layout({ children, home }) {
   return (
@@ -11,10 +11,7 @@ export default function Layout({ children, home }) {
       <Head>
         <title>{siteTitle}</title>
         <link rel="icon" href="/favicon.ico" />
-        <meta
-          name="description"
-          content="Learn how to build a personal website using Next.js"
-        />
+        <meta name="description" content="Gigs of London" />
         <meta
           property="og:image"
           content={`https://og-image.vercel.app/${encodeURI(
@@ -25,7 +22,7 @@ export default function Layout({ children, home }) {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <header className={styles.header}></header>
-      <main>{children}</main>
+      <main className={home && homeStyles.containerHome}>{children}</main>
       {!home && (
         <div className={styles.backToHome}>
           <Link href="/">
