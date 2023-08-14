@@ -72,6 +72,7 @@ export const Sidebar = ({
         {gigs.length ? (
           gigs.map((gig) => (
             <div
+              key={gig.id}
               className={styles.sidebar__gigList__gig}
               onClick={() => handleMouseClick(gig.id)}
               onMouseEnter={() => handleMouseEnter(gig.id)}
