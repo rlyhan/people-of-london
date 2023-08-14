@@ -2,7 +2,7 @@ import moment from "moment";
 
 import { filterImagesByAspectRatio } from "./filters";
 
-const getLatLngFromEvent = (event) => {
+const getLatLngFromEvent = (event: any) => {
   if (event._embedded?.venues) {
     const location = event._embedded?.venues[0]?.location;
     if (location && !isNaN(location.latitude) && !isNaN(location.longitude)) {
@@ -12,7 +12,7 @@ const getLatLngFromEvent = (event) => {
   return null;
 };
 
-const createEventPopupHTML = (event) => {
+const createEventPopupHTML = (event: any) => {
   const image = `<img
   src=${filterImagesByAspectRatio(event.images, "3_2").url}
 />`;

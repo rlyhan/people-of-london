@@ -2,8 +2,8 @@ import moment from "moment";
 
 import { getLatLngFromEvent } from "./ticketmaster";
 
-const filterEventsByAttractionId = (events) => {
-  const distinctEvents = [];
+const filterEventsByAttractionId = (events: any[]) => {
+  const distinctEvents: any[] = [];
   const distinctAttractionIds = new Set();
   events.forEach((event, index) => {
     if (
@@ -20,7 +20,7 @@ const filterEventsByAttractionId = (events) => {
   return distinctEvents;
 };
 
-const filterEventsByDate = (events, date: Date) => {
+const filterEventsByDate = (events: any[], date: Date) => {
   return events.filter(
     (event) =>
       moment(event.dates.start.dateTime).format("YYYY-MM-DD") ===
@@ -28,11 +28,11 @@ const filterEventsByDate = (events, date: Date) => {
   );
 };
 
-const filterEventsByExistingVenue = (events) => {
+const filterEventsByExistingVenue = (events: any[]) => {
   return events.filter((event) => getLatLngFromEvent(event) !== null);
 };
 
-const filterImagesByAspectRatio = (images, aspectRatio) => {
+const filterImagesByAspectRatio = (images: any[], aspectRatio: string) => {
   return images.filter((image) => image.ratio === aspectRatio)[0] || images[0];
 };
 
