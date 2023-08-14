@@ -19,10 +19,6 @@ function Home({ gigs }: HomePageProps) {
   const [selectedGigId, setSelectedGigId] = useState<string | null>(null);
   const [modalGigId, setModalGigId] = useState<string | null>(null);
 
-  useEffect(() => {
-    console.log(gigList);
-  }, [gigList]);
-
   return (
     <Layout home>
       <Sidebar
@@ -38,7 +34,7 @@ function Home({ gigs }: HomePageProps) {
       />
       {modalGigId && (
         <Modal
-          gig={gigList.find((gig) => gig.id === modalGigId)}
+          gig={gigList.find((gig: any) => gig.id === modalGigId)}
           setModalGigId={setModalGigId}
         />
       )}
@@ -64,7 +60,6 @@ export async function getServerSideProps() {
       ),
       today
     );
-    console.log(gigs);
 
     return {
       props: {

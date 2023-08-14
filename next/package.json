@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/mapbox-gl": "^2.7.13",
     "@types/node": "18.15.1",
     "@types/react": "18.0.28",
+    "@types/react-datepicker": "^4.15.0",
     "@types/react-dom": "18.0.11",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
