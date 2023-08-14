@@ -96,10 +96,11 @@ export const Sidebar = ({
                   {gig._embedded?.venues[0]?.name}
                 </p>
                 <p className={styles.sidebar__gigList__gig__desc__text}>
-                  {moment(gig.dates.start.localDate).format("MMMM Do YYYY")},{" "}
-                  {moment(gig.dates.start.localTime, "HH:mm:ss").format(
-                    "h:mm A"
-                  )}
+                  {moment(gig.dates.start.localDate).format("MMMM Do YYYY")}
+                  {gig.dates.start.localTime &&
+                    `, ${moment(gig.dates.start.localTime, "HH:mm:ss").format(
+                      "h:mm A"
+                    )}`}
                 </p>
               </div>
             </div>
