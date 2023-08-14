@@ -70,12 +70,10 @@
       @include gig-title();
       margin: 0;
       font-size: 18px;
-      @include below-desktop {
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-      }
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
       @include desktop {
         font-size: 24px;
       }
