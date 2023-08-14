@@ -2,6 +2,18 @@ import moment from "moment";
 
 import { filterImagesByAspectRatio } from "./filters";
 
+const getEventsUrl = (date: Date) => {
+  const dayAfter = new Date(date);
+  dayAfter.setDate(date.getDate() + 1);
+  return `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${
+    process.env.NEXT_PUBLIC_TICKETMASTER_KEY
+  }&city=London&countryCode=GB&classificationName=Music&startDateTime=${
+    date.toISOString().split("T")[0]
+  }T00:00:00Z&endDateTime=${
+    dayAfter.toISOString().split("T")[0]
+  }T00:00:00Z&size=100&sort=date,asc`;
+};
+
 const getLatLngFromEvent = (event: any) => {
   if (event._embedded?.venues) {
     const location = event._embedded?.venues[0]?.location;
@@ -35,4 +47,4 @@ ${textContent}
 </div>`;
 };
 
-export { getLatLngFromEvent, createEventPopupHTML };
+export { getEventsUrl, getLatLngFromEvent, createEventPopupHTML };

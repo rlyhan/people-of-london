@@ -6,11 +6,10 @@ import moment from "moment";
 import styles from "./sidebar.module.scss";
 import utilsStyles from "../styles/utils.module.scss";
 import {
-  filterEventsByAttractionId,
-  filterEventsByDate,
   filterEventsByExistingVenue,
   filterImagesByAspectRatio,
 } from "../helpers/filters";
+import { getEventsUrl } from "../helpers/ticketmaster";
 
 import Logo from "./logo";
 
@@ -44,21 +43,12 @@ export const Sidebar = ({
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch(
-          `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${
-            process.env.NEXT_PUBLIC_TICKETMASTER_KEY
-          }&city=London&countryCode=GB&segmentId=KZFzniwnSyZfZ7v7nJ&eventdate_from=${filterDate.toISOString()}&size=100&sort=date,asc`
-        );
+        const res = await fetch(getEventsUrl(filterDate));
         const data = await res.json();
+        console.log("data:", data);
         // Removes events with no venue location
-        // Gets events by attraction id (show one event per attraction)
-        // Gets today's events only
-        const gigs = filterEventsByDate(
-          filterEventsByAttractionId(
-            filterEventsByExistingVenue(data._embedded.events)
-          ),
-          filterDate
-        );
+        const gigs = filterEventsByExistingVenue(data._embedded.events);
+        console.log("gigs:", gigs);
         setGigList(gigs);
       } catch (error) {
         console.error("Error:", error);

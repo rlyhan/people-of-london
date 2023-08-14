@@ -7,6 +7,7 @@ import {
   filterEventsByDate,
   filterEventsByExistingVenue,
 } from "../helpers/filters";
+import { getEventsUrl } from "../helpers/ticketmaster";
 import React, { useState } from "react";
 
 interface HomePageProps {
@@ -44,21 +45,10 @@ function Home({ gigs }: HomePageProps) {
 export async function getServerSideProps() {
   try {
     const today = new Date();
-    const res = await fetch(
-      `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${
-        process.env.NEXT_PUBLIC_TICKETMASTER_KEY
-      }&city=London&countryCode=GB&segmentId=KZFzniwnSyZfZ7v7nJ&eventdate_from=${today.toISOString()}&size=100&sort=date,asc`
-    );
+    const res = await fetch(getEventsUrl(today));
     const data = await res.json();
     // Removes events with no venue location
-    // Gets events by attraction id (show one event per attraction)
-    // Gets today's events only
-    const gigs = filterEventsByDate(
-      filterEventsByAttractionId(
-        filterEventsByExistingVenue(data._embedded.events)
-      ),
-      today
-    );
+    const gigs = filterEventsByExistingVenue(data._embedded.events);
 
     return {
       props: {
