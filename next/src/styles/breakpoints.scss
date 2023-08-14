@@ -2,8 +2,7 @@ $tablet-min: 768px;
 $tablet-max: 1024px;
 $desktop-min: $tablet-max + 1px;
 $max-width: 1440px;
-$sidebar-max: 410px;
-$sidebar-max-breakpoint: 1370px;
+$sidebar-desktop: 410px;
 
 @mixin phone() {
   @media (max-width: $tablet-min) {
@@ -31,12 +30,6 @@ $sidebar-max-breakpoint: 1370px;
 
 @mixin above-max-width() {
   @media (min-width: $max-width) {
-    @content;
-  }
-}
-
-@mixin above-max-sidebar-breakpoint() {
-  @media (min-width: $sidebar-max-breakpoint) {
     @content;
   }
 }

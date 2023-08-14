@@ -1,4 +1,5 @@
 @import "./_constants.scss";
+@import "./breakpoints.scss";
 
 .datepicker {
   z-index: 20;
@@ -7,7 +8,10 @@
   max-width: 305px;
   margin: 2em 0;
   border-radius: 20px;
-  font-size: 16px;
+  font-size: 12px;
+  @include desktop {
+    font-size: 16px;
+  }
   &__label {
     color: white;
     padding: 0.5em 1.5em;
@@ -18,12 +22,15 @@
   .react-datepicker__input-container {
     height: 100% !important;
     input {
-      font-size: 16px;
+      font-size: 12px;
       width: 150px !important;
       height: 100% !important;
       text-align: center !important;
       border-top-right-radius: 20px;
       border-bottom-right-radius: 20px;
+      @include desktop {
+        font-size: 16px;
+      }
     }
   }
 }

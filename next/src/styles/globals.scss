@@ -31,15 +31,15 @@ img {
 
 .logo {
   user-select: none;
-  font-size: 54px;
+  font-size: 32px;
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
   color: white;
   line-height: 1;
   letter-spacing: -1px;
   text-transform: uppercase;
   margin: 0;
-  @include phone {
-    font-size: 32px;
+  @include desktop {
+    font-size: 54px;
   }
   .inline {
     display: inline-block;

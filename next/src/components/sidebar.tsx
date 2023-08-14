@@ -68,14 +68,16 @@ export const Sidebar = ({
   }, [filterDate]);
 
   return (
-    <div className={styles.sidebar}>
-      <Logo />
-      <div className="datepicker">
-        <div className="datepicker__label">Choose a date</div>
-        <DatePicker
-          selected={filterDate}
-          onChange={(date: Date) => setFilterDate(date)}
-        />
+    <div className={styles.sidebar} id="sidebar">
+      <div className={styles.sidebar__topContent}>
+        <Logo />
+        <div className="datepicker">
+          <div className="datepicker__label">Choose a date</div>
+          <DatePicker
+            selected={filterDate}
+            onChange={(date: Date) => setFilterDate(date)}
+          />
+        </div>
       </div>
       <div className={styles.sidebar__gigList}>
         {gigs.length ? (

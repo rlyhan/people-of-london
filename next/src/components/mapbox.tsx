@@ -40,6 +40,12 @@ export const Mapbox = ({
       trackResize: true,
     });
 
+    if (window.innerWidth < 1024 && document.getElementById("sidebar")) {
+      mapContainer.current.style.height = `calc(100vh - ${
+        document.getElementById("sidebar").offsetHeight
+      }px)`;
+    }
+
     mapboxMap.on("load", () => {
       // Add the main data (boroughs of London)
       mapboxMap.addSource("boroughs", {
@@ -95,7 +101,15 @@ export const Mapbox = ({
 
     setMap(mapboxMap);
 
-    window.addEventListener("resize", forceMapResize);
+    window.addEventListener("resize", () => {
+      if (window.innerWidth < 1024) {
+        mapContainer.current.style.height = `calc(100vh - ${
+          document.getElementById("sidebar").offsetHeight
+        }px)`;
+      } else {
+        mapContainer.current.style.height = "100vh";
+      }
+    });
 
     return () => {
       mapboxMap.remove();
@@ -177,12 +191,6 @@ export const Mapbox = ({
       }
     }
   }, [selectedGigId]);
-
-  const forceMapResize = () => {
-    if (map) {
-      map.resize();
-    }
-  };
 
   return (
     <div
