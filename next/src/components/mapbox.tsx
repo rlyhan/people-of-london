@@ -28,11 +28,12 @@ export const Mapbox = ({
   const mapContainer = useRef(null);
   let hoveredPolygonId: React.MutableRefObject<null> | null = useRef(null);
   const [map, setMap] = useState(null);
-  const [markers, setMarkers] = useState([]);
+  const [markers, setMarkers] = useState<any[]>([]);
   const [currentMarker, setCurrentMarker] = useState(null);
 
   useEffect(() => {
     const mapboxMap = new mapboxgl.Map({
+      // @ts-ignore
       container: mapContainer.current,
       style: "mapbox://styles/rlyhan/cll2i2nxz00e101qp8wn95xl1",
       center: [-0.063, 51.486],
@@ -41,7 +42,9 @@ export const Mapbox = ({
     });
 
     if (window.innerWidth < 1024 && document.getElementById("sidebar")) {
+      // @ts-ignore
       mapContainer.current.style.height = `calc(100vh - ${
+        // @ts-ignore
         document.getElementById("sidebar").offsetHeight
       }px)`;
     }
@@ -71,15 +74,19 @@ export const Mapbox = ({
       });
 
       mapboxMap.on("mousemove", "borough-fills", (e) => {
+        // @ts-ignore
         if (e.features.length > 0) {
           if (hoveredPolygonId !== null) {
             mapboxMap.setFeatureState(
+              // @ts-ignore
               { source: "boroughs", id: hoveredPolygonId },
               { hover: false }
             );
           }
+          // @ts-ignore
           hoveredPolygonId = e.features[0].id;
           mapboxMap.setFeatureState(
+            // @ts-ignore
             { source: "boroughs", id: hoveredPolygonId },
             { hover: true }
           );
@@ -89,6 +96,7 @@ export const Mapbox = ({
       mapboxMap.on("mouseleave", "borough-fills", () => {
         if (hoveredPolygonId !== null) {
           mapboxMap.setFeatureState(
+            // @ts-ignore
             { source: "boroughs", id: hoveredPolygonId },
             { hover: false }
           );
@@ -99,15 +107,19 @@ export const Mapbox = ({
       setupMarkers(gigs);
     });
 
+    // @ts-ignore
     setMap(mapboxMap);
 
     window.addEventListener("resize", () => {
       if (mapContainer.current) {
         if (window.innerWidth < 1024 && document.getElementById("sidebar")) {
+          // @ts-ignore
           mapContainer.current.style.height = `calc(100vh - ${
+            // @ts-ignore
             document.getElementById("sidebar").offsetHeight
           }px)`;
         } else {
+          // @ts-ignore
           mapContainer.current.style.height = "100vh";
         }
       }
@@ -127,6 +139,7 @@ export const Mapbox = ({
   useEffect(() => {
     if (map) {
       markers.forEach((marker) => {
+        // @ts-ignore
         marker.addTo(map);
       });
     }
@@ -134,7 +147,7 @@ export const Mapbox = ({
 
   // Clear current markers
   // Create new markers corresponding to gig location
-  const setupMarkers = (gigs) => {
+  const setupMarkers = (gigs: any[]) => {
     clearMarkers();
     if (map) {
       // TODO: Identify differences between previous markers/gigs array and current? To avoid removing and adding already existing markers
@@ -150,9 +163,10 @@ export const Mapbox = ({
     markers.forEach((marker) => marker.remove());
   };
 
-  const createMarker = (gig) => {
+  const createMarker = (gig: any) => {
     const location = getLatLngFromEvent(gig);
     if (location) {
+      // @ts-ignore
       const marker = new mapboxgl.Marker().setLngLat(location);
       const popup = new mapboxgl.Popup({
         className: "event-popup",
@@ -180,6 +194,7 @@ export const Mapbox = ({
   // and set currentMarker to that marker + show its popup
   useEffect(() => {
     if (currentMarker) {
+      // @ts-ignore
       currentMarker.togglePopup();
       setCurrentMarker(null);
     }

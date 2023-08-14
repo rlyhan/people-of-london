@@ -7,8 +7,7 @@ import {
   filterEventsByDate,
   filterEventsByExistingVenue,
 } from "../helpers/filters";
-import React, { useEffect, useState } from "react";
-import moment from "moment";
+import React, { useState } from "react";
 
 interface HomePageProps {
   gigs: any;
