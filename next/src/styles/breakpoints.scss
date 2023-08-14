@@ -10,7 +10,7 @@ $sidebar-desktop: 410px;
   }
 }
 
-@mixin tablet() {
+@mixin below-desktop() {
   @media (max-width: $tablet-max) {
     @content;
   }
