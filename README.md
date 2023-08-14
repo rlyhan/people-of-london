@@ -1,5 +1,7 @@
 # People of London
 
+** NOTE: This is the Gigs of London app. People of London app will come later, with Gigs of London to branch off it... **
+
 Template that uses Django as a backend and NextJS as a frontend.
 
 1. Clone this project
