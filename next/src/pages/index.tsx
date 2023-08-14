@@ -2,11 +2,7 @@ import Layout from "../components/layout";
 import Mapbox from "../components/mapbox";
 import Sidebar from "../components/sidebar";
 import Modal from "../components/modal";
-import {
-  filterEventsByAttractionId,
-  filterEventsByDate,
-  filterEventsByExistingVenue,
-} from "../helpers/filters";
+import { filterEventsByExistingVenue } from "../helpers/filters";
 import { getEventsUrl } from "../helpers/ticketmaster";
 import React, { useState } from "react";
 

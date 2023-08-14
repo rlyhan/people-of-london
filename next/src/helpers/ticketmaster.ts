@@ -26,7 +26,7 @@ const getLatLngFromEvent = (event: any) => {
 
 const createEventPopupHTML = (event: any) => {
   const image = `<img
-  src=${filterImagesByAspectRatio(event.images, "3_2").url}
+  src=${filterImagesByAspectRatio(event.images, "3_2")[0].url}
 />`;
   const heading = `<h3 style="font-size: 16px; margin: 0 0 .5em;">${event.name}</h3>`;
   const paragraph = (text: string) =>

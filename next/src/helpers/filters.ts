@@ -33,7 +33,11 @@ const filterEventsByExistingVenue = (events: any[]) => {
 };
 
 const filterImagesByAspectRatio = (images: any[], aspectRatio: string) => {
-  return images.filter((image) => image.ratio === aspectRatio)[0] || images[0];
+  return images.filter((image) => image.ratio === aspectRatio) || images;
+};
+
+const findLargestImage = (images: any[]) => {
+  return images.sort((a, b) => b.width - a.width)[0];
 };
 
 export {
@@ -41,4 +45,5 @@ export {
   filterEventsByDate,
   filterEventsByExistingVenue,
   filterImagesByAspectRatio,
+  findLargestImage,
 };

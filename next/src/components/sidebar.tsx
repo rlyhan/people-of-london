@@ -45,10 +45,8 @@ export const Sidebar = ({
       try {
         const res = await fetch(getEventsUrl(filterDate));
         const data = await res.json();
-        console.log("data:", data);
         // Removes events with no venue location
         const gigs = filterEventsByExistingVenue(data._embedded.events);
-        console.log("gigs:", gigs);
         setGigList(gigs);
       } catch (error) {
         console.error("Error:", error);
@@ -64,6 +62,7 @@ export const Sidebar = ({
         <div className="datepicker">
           <div className="datepicker__label">Choose a date</div>
           <DatePicker
+            minDate={new Date()}
             selected={filterDate}
             onChange={(date: Date) => setFilterDate(date)}
           />
@@ -87,7 +86,7 @@ export const Sidebar = ({
                 <div className={utilsStyles.aspectRatioImage__imgWrap}>
                   <img
                     className={utilsStyles.aspectRatioImage__img}
-                    src={filterImagesByAspectRatio(gig.images, "3_2").url}
+                    src={filterImagesByAspectRatio(gig.images, "3_2")[0].url}
                   />
                 </div>
               </div>

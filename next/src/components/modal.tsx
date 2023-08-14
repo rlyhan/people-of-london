@@ -3,7 +3,10 @@ import moment from "moment";
 
 import styles from "./modal.module.scss";
 import utilsStyles from "../styles/utils.module.scss";
-import { filterImagesByAspectRatio } from "../helpers/filters";
+import {
+  filterImagesByAspectRatio,
+  findLargestImage,
+} from "../helpers/filters";
 
 interface SidebarProps {
   gig: any;
@@ -25,10 +28,13 @@ const Modal = ({ gig, setModalGigId }: SidebarProps) => {
         <div className={styles.modal__wrap}>
           <div className={utilsStyles.aspectRatioImage}>
             <p className={styles.modal__title}>{gig.name}</p>
-            <div className={utilsStyles.aspectRatioImage__imgWrap}>
+            <div className={utilsStyles.aspectRatioImage__imgWrapLarge}>
               <img
                 className={utilsStyles.aspectRatioImage__img}
-                src={filterImagesByAspectRatio(gig.images, "3_2").url}
+                src={
+                  findLargestImage(filterImagesByAspectRatio(gig.images, "3_2"))
+                    .url
+                }
               />
             </div>
           </div>
